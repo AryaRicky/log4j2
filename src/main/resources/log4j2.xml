@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="300">
+    <properties>
+        <property name="home_path">d:/out/logs</property>
+        <property name="file_name">mylog</property>
+    </properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %logger{36} - %msg%n" />
+        </Console>
+        <RollingRandomAccessFile name="MyFile" fileName="${home_path}/${file_name}.log" filePattern="${home_path}/$${date:yyyy-MM}/${file_name}-%d{yyyy-MM-dd HH-mm}-%i.log">
+            <Filters>
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+            </Filters>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %logger{36} - %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="5 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/> <!--最大20个文件-->
+        </RollingRandomAccessFile>
+        <!--<File name="MyFile" fileName="d:/out/logs/test.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %logger{36} - %msg%n" />
+        </File>-->
+    </Appenders>
+    <Loggers>
+        <!--<logger name="com.ljg" level="debug" additivity="false">
+            <appenderRef ref="MyFile"/>
+        </logger>-->
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <appenderRef ref="MyFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
+<!--需要了再看吧-->
+<!--
+参考链接：http://blog.csdn.net/qwert678000/article/details/70308206，http://blog.csdn.net/qwert678000/article/details/70308562-->
